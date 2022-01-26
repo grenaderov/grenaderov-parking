@@ -11,7 +11,7 @@ class Parking
     public function __construct(private int $capacity)
     {
         if ($capacity <= 0) {
-            throw new DomainException('Парковка не может быть без мест');
+            throw new \DomainException('Парковка не может быть без мест');
         }
     }
 
@@ -20,13 +20,34 @@ class Parking
         return $this->capacity;
     }
 
-    public function park(Car $car): bool
+    public function park(Car $car): void
     {
+        if ($this->findCar($car->getVin())) {
+            throw new \DomainException('Автомобиль с таким VIN уже запаркован');
+        }
+
         if (count($this->cars) === $this->capacity) {
-            return false;
+            throw new \DomainException('Нет свободных мест');
         }
 
         $this->cars[] = $car;
-        return true;
+    }
+
+    public function parkOut(string $vin): void
+    {
+        if ($this->findCar($vin)) {
+            $this->cars = array_filter($this->cars, fn($val) => $val->getVin() !== $vin);
+        }
+    }
+
+    public function findCar(string $vin): int|object
+    {
+        foreach ($this->cars as $val) {
+            if ($val->getVin() === $vin) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
