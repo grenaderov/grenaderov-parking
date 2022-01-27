@@ -22,7 +22,7 @@ class Parking
 
     public function park(Car $car): void
     {
-        if ($this->findCar($car->getVin())) {
+        if ($this->findCar($car->getVin()) !== false) {
             throw new \DomainException('Автомобиль с таким VIN уже запаркован');
         }
 
@@ -35,16 +35,20 @@ class Parking
 
     public function parkOut(string $vin): void
     {
-        if ($this->findCar($vin)) {
-            $this->cars = array_filter($this->cars, fn($val) => $val->getVin() !== $vin);
+        $key = $this->findCar($vin);
+
+        if ($key === false) {
+            throw new \DomainException('Отпарковать автомобиль не удалось, автомобиль не найден.');
         }
+
+        unset($this->cars[$key]);
     }
 
-    public function findCar(string $vin): int|object
+    public function findCar(string $vin): int|bool
     {
-        foreach ($this->cars as $val) {
+        foreach ($this->cars as $key => $val) {
             if ($val->getVin() === $vin) {
-                return true;
+                return $key;
             }
         }
 
