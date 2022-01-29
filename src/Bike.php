@@ -6,5 +6,5 @@ use App\Vehicle;
 
 class Bike extends Vehicle
 {
-    public float $size = 0.5;
+    const SIZE = 0.5;
 }

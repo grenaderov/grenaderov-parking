@@ -2,9 +2,9 @@
 
 namespace App;
 
-class Vehicle
+abstract class Vehicle
 {
-    public float $size;
+    const SIZE = 1;
 
     public function __construct(private string $vin)
     {
@@ -17,10 +17,10 @@ class Vehicle
 
     public function getSize()
     {
-        if ($this->size <= 0) {
+        if (self::SIZE <= 0) {
             throw new \DomainException('Размер транспортного средства отсутствует или равен нулю');
         }
 
-        return $this->size;
+        return self::SIZE;
     }
 }

@@ -6,7 +6,7 @@ use App\Vehicle;
 
 class Parking
 {
-    private array $cars = [];
+    public array $cars = [];
 
     public function __construct(private int $capacity)
     {
