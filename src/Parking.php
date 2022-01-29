@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Car;
+use App\Vehicle;
 
 class Parking
 {
@@ -15,18 +15,18 @@ class Parking
         }
     }
 
-    public function getCapacity(): int
+    private function getCapacity(): int
     {
         return $this->capacity;
     }
 
-    public function park(Car $car): void
+    public function park(Vehicle $car): void
     {
         if (!is_null($this->findCar($car->getVin()))) {
             throw new \DomainException('Автомобиль с таким VIN уже запаркован');
         }
 
-        if (count($this->cars) === $this->capacity) {
+        if (!$this->possiblePark($car)) {
             throw new \DomainException('Нет свободных мест');
         }
 
@@ -46,7 +46,7 @@ class Parking
         $this->cars = array_values($this->cars);
     }
 
-    public function findCar(string $vin): ?int
+    private function findCar(string $vin): ?int
     {
         foreach ($this->cars as $key => $val) {
             if ($val->getVin() === $vin) {
@@ -55,5 +55,15 @@ class Parking
         }
 
         return null;
+    }
+
+    private function countOccupied(): float
+    {
+        return array_sum(array_map(fn(Vehicle $item) => $item->getSize(), $this->cars));
+    }
+
+    private function possiblePark(Vehicle $car): bool
+    {
+        return $this->countOccupied() + $car->getSize() <= $this->capacity;
     }
 }

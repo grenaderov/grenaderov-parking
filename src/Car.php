@@ -2,18 +2,9 @@
 
 namespace App;
 
+use App\Vehicle;
 
-class Car
+class Car extends Vehicle
 {
-    private $vin;
-
-    public function __construct(string $vin)
-    {
-        $this->vin = $vin;
-    }
-
-    public function getVin(): string
-    {
-        return $this->vin;
-    }
+    protected const SIZE = 1;
 }
