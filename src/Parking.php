@@ -15,7 +15,7 @@ class Parking
         }
     }
 
-    public function getCapacity(): int
+    private function getCapacity(): int
     {
         return $this->capacity;
     }
@@ -46,7 +46,7 @@ class Parking
         $this->cars = array_values($this->cars);
     }
 
-    public function findCar(string $vin): ?int
+    private function findCar(string $vin): ?int
     {
         foreach ($this->cars as $key => $val) {
             if ($val->getVin() === $vin) {
@@ -57,15 +57,13 @@ class Parking
         return null;
     }
 
-    public function countOccupied(): float
+    private function countOccupied(): float
     {
-        return array_sum(array_map(fn($item) => $item->getSize(), $this->cars));
+        return array_sum(array_map(fn(Vehicle $item) => $item->getSize(), $this->cars));
     }
 
-    public function possiblePark(Vehicle $car): bool
+    private function possiblePark(Vehicle $car): bool
     {
-        $countOccupied = $this->countOccupied();
-
-        return $countOccupied + $car->getSize() <= $this->capacity;
+        return $this->countOccupied() + $car->getSize() <= $this->capacity;
     }
 }
