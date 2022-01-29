@@ -1,11 +1,12 @@
 <?php
 
+
 namespace App;
 
 
-class Car
+class Truck
 {
-    public float $size = 1;
+    public float $size = 2;
 
     public function __construct(private string $vin)
     {
