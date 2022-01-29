@@ -57,12 +57,12 @@ class Parking
         return null;
     }
 
-    public function countOccupied(): int
+    public function countOccupied(): float
     {
         return array_sum(array_map(fn($item) => $item->getSize(), $this->cars));
     }
 
-    public function possiblePark(object $car): bool
+    public function possiblePark(Vehicle $car): bool
     {
         $countOccupied = $this->countOccupied();
 

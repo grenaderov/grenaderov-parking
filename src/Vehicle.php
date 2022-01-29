@@ -8,6 +8,9 @@ abstract class Vehicle
 
     public function __construct(private string $vin)
     {
+        if (static::SIZE <= 0) {
+            throw new \DomainException('Размер транспортного средства отсутствует или равен нулю');
+        }
     }
 
     public function getVin(): string
@@ -15,12 +18,8 @@ abstract class Vehicle
         return $this->vin;
     }
 
-    public function getSize()
+    public function getSize(): float
     {
-        if (static::SIZE <= 0) {
-            throw new \DomainException('Размер транспортного средства отсутствует или равен нулю');
-        }
-
         return static::SIZE;
     }
 }
