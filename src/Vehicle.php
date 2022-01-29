@@ -4,7 +4,7 @@ namespace App;
 
 abstract class Vehicle
 {
-    const SIZE = 1;
+    protected const SIZE = null;
 
     public function __construct(private string $vin)
     {
@@ -17,10 +17,10 @@ abstract class Vehicle
 
     public function getSize()
     {
-        if (self::SIZE <= 0) {
+        if (static::SIZE <= 0) {
             throw new \DomainException('Размер транспортного средства отсутствует или равен нулю');
         }
 
-        return self::SIZE;
+        return static::SIZE;
     }
 }

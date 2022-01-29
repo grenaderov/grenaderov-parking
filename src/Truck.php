@@ -6,6 +6,6 @@ use App\Vehicle;
 
 class Truck extends Vehicle
 {
-    const SIZE = 2;
+    protected const SIZE = 2;
 
 }

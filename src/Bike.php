@@ -6,5 +6,5 @@ use App\Vehicle;
 
 class Bike extends Vehicle
 {
-    const SIZE = 0.5;
+    protected const SIZE = 0.5;
 }
