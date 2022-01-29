@@ -1,16 +1,10 @@
 <?php
+
 namespace App;
 
-class Bike
+use App\Vehicle;
+
+class Bike extends Vehicle
 {
     public float $size = 0.5;
-
-    public function __construct(private string $vin)
-    {
-    }
-
-    public function getVin(): string
-    {
-        return $this->vin;
-    }
 }
