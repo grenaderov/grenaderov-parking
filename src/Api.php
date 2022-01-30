@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Parking;
+use App\Parking\Parking;
 
 class Api
 {

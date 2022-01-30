@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Parking;
 
-use App\Vehicle;
+use App\Parking\Vehicle;
 
 class Parking
 {

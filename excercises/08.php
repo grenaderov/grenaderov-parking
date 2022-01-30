@@ -2,9 +2,9 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Api;
-use App\Bike;
-use App\Car;
-use App\Truck;
+use App\Parking\Bike;
+use App\Parking\Car;
+use App\Parking\Truck;
 
 $api = new Api();
 $parking = $api->createParking(4);
