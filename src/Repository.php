@@ -7,6 +7,7 @@ use App\Parking\Parking;
 class Repository
 {
     private $savePath = '../data/';
+    private $curId = null;
 
     public function setSavePath(string $dir): void
     {
@@ -20,8 +21,11 @@ class Repository
 
     public function save(Parking $data): void
     {
-        $id = $this->nextId();
-        file_put_contents($this->getFileName($id), serialize($data));
+        if(is_null($this->curId)) {
+            $this->curId = $this->nextId();
+        }
+
+        file_put_contents($this->getFileName($this->curId), serialize($data));
     }
 
     public function get($id): Parking
@@ -31,6 +35,8 @@ class Repository
         if (!is_file(trim($readFile))) {
             throw new \DomainException('Файл не найден');
         }
+
+        $this->curId = $this->nextId();
 
         return unserialize(file_get_contents($readFile));
     }
@@ -42,6 +48,8 @@ class Repository
         if (!is_file(trim($readFile))) {
             throw new \DomainException('Файл не найден');
         }
+
+        $this->curId = null;
 
         unlink($readFile);
     }
