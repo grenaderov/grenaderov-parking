@@ -34,8 +34,6 @@ class Repository
             throw new \DomainException('Файл не найден');
         }
 
-        $this->curId = null;
-
         unlink($readFile);
     }
 
