@@ -8,7 +8,7 @@ class Parking
 {
     private array $cars = [];
 
-    public function __construct(private int $capacity)
+    public function __construct(private int $capacity, private int $id)
     {
         if ($capacity <= 0) {
             throw new \DomainException('Парковка не может быть без мест');
@@ -65,5 +65,10 @@ class Parking
     private function possiblePark(Vehicle $car): bool
     {
         return $this->countOccupied() + $car->getSize() <= $this->capacity;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

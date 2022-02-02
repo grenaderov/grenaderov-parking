@@ -12,7 +12,7 @@ class Api
 
     public function createParking(int $parkingSize): Parking
     {
-        $parking = new Parking($parkingSize);
+        $parking = new Parking($parkingSize, $this->repo->nextId());
         $this->repo->save($parking);
 
         return $parking;
