@@ -12,7 +12,7 @@ class Api
     {
     }
 
-    public function createParking(int $parkingSize): Parking
+    public function create(int $parkingSize): Parking
     {
         $parking = new Parking($parkingSize, $this->repo->nextId());
         $this->repo->save($parking);
@@ -20,12 +20,12 @@ class Api
         return $parking;
     }
 
-    public function getAllParking(): array
+    public function getAll(): array
     {
         return $this->repo->getAll();
     }
 
-    public function findParkingById(int $id): Parking
+    public function findById(int $id): Parking
     {
         return $this->repo->findById($id);
     }
@@ -51,7 +51,7 @@ class Api
         return $parking;
     }
 
-    public function deleteParking(int $idParking): Parking
+    public function delete(int $idParking): Parking
     {
         $parking = $this->repo->findById($idParking);
         $this->repo->delete($idParking);
@@ -61,7 +61,11 @@ class Api
 
     private function makeClassName(string $class): string
     {
-        $class = "App\\Parking\\" . $class;
+        $class = 'App\\Parking\\' . $class;
+
+        if (!is_subclass_of($class, 'App\\Parking\\Vehicle')) {
+            throw new \DomainException('Класс не является наследником класса Vehicle');
+        }
 
         if (!class_exists($class)) {
             throw new \DomainException('Неправильный тип ТС');

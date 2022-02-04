@@ -6,16 +6,16 @@ use App\Repository;
 
 $api = new Api(new Repository());
 
-$parking = $api->createParking(4);
+$parking = $api->create(4);
 
-$parkingArr = $api->getAllParking();
+$parkingArr = $api->getAll();
 
-$parking = $api->findParkingById(1);
+$parking = $api->findById(1);
 
-$parking = $api->parkVehicle(1,'Truck', '12345678912345678449');
+$parking = $api->parkVehicle(1,'Car', '12345678912345678449');
 
 $parking = $api->parkOutVehicle(1,'12345678912345678449');
 
-$parking = $api->deleteParking(1);
+$parking = $api->delete(1);
 
 var_dump($parking);
