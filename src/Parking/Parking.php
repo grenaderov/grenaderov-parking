@@ -15,7 +15,12 @@ class Parking
         }
     }
 
-    private function getCapacity(): int
+    public function getAllVehicle(): array
+    {
+        return $this->cars;
+    }
+
+    public function getCapacity(): int
     {
         return $this->capacity;
     }
