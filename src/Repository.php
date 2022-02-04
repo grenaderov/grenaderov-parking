@@ -53,7 +53,7 @@ class Repository
 
         rsort($allIds);
 
-        return ++$allIds[0] ?? 1;
+        return count($allIds) ? ++$allIds[0] : 1;
     }
 
     private function getAllFileIds(): array
