@@ -6,11 +6,11 @@ use Throwable;
 
 class ApiException extends \RuntimeException
 {
-    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    public function __construct(Throwable $prev = null)
     {
-        $this->message = 'Ошибка API: ' . $message;
-        $this->previous = $previous;
+        $this->message = 'Ошибка API: ' . $prev->getMessage();
+        $this->previous = $prev;
 
-        parent::__construct($message, $code, $previous);
+        parent::__construct($prev->getMessage(), $prev->getCode(), $prev);
     }
 }

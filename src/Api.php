@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\ApiResponse;
 use App\ApiException;
+use App\ApiResponse;
 use App\Parking\Parking;
 use App\Parking\Vehicle;
 use App\Parking\{Car, Bike, Truck};
@@ -23,7 +23,7 @@ class Api
 
             return new ApiResponse($parking);
         } catch (\DomainException $e) {
-            throw new ApiException($e->getMessage(), 0, $e);
+            throw new ApiException($e);
         }
     }
 
@@ -32,7 +32,7 @@ class Api
         try {
             return new ApiResponse($this->repo->getAll());
         } catch (\DomainException $e) {
-            throw new ApiException($e->getMessage(), 0, $e);
+            throw new ApiException($e);
         }
     }
 
@@ -43,7 +43,7 @@ class Api
 
             return new ApiResponse($parking);
         } catch (\DomainException $e) {
-            throw new ApiException($e->getMessage(), 0, $e);
+            throw new ApiException($e);
         }
     }
 
@@ -59,7 +59,7 @@ class Api
 
             return new ApiResponse($parking);
         } catch (\DomainException $e) {
-            throw new ApiException($e->getMessage(), 0, $e);
+            throw new ApiException($e);
         }
     }
 
@@ -72,7 +72,7 @@ class Api
 
             return new ApiResponse($parking);
         } catch (\DomainException $e) {
-            throw new ApiException($e->getMessage(), 0, $e);
+            throw new ApiException($e);
         }
     }
 
@@ -84,7 +84,7 @@ class Api
 
             return new ApiResponse($parking);
         } catch (\DomainException $e) {
-            throw new ApiException($e->getMessage(), 0, $e);
+            throw new ApiException($e);
         }
     }
 

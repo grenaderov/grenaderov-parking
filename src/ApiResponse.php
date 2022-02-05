@@ -11,18 +11,16 @@ class ApiResponse
 
     public function __construct(mixed $data)
     {
-        if (is_array($data)) {
-            $this->response = array_map(fn($item) => $this->convertParking($item), $data);
-        } else {
-            $this->response = $this->convertParking($data);
-        }
+        $this->response = (is_array($data)) ?
+            array_map(fn($item) => $this->convertParking($item), $data) :
+            $this->convertParking($data);
     }
 
     private function convertParking(Parking $parking): array
     {
         return [
             'id' => $parking->getId(),
-            'capasity' => $parking->getCapacity(),
+            'capacity' => $parking->getCapacity(),
             'places' => array_map(fn($item) => $this->convertVehicle($item), $parking->getAllVehicle())
         ];
     }
