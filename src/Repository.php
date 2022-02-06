@@ -62,7 +62,7 @@ class Repository
         $objectArr = [];
 
         foreach ($files as $file) {
-            if (preg_match('#([\d])+\.data#', $file, $matches)) {
+            if (preg_match('#([\d]+)\.data#', $file, $matches)) {
                 if (isset($matches[1])) {
                     $objectArr[] = $matches[1];
                 }

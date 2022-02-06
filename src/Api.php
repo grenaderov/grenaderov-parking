@@ -2,9 +2,12 @@
 
 namespace App;
 
+use App\ApiException;
+use App\ApiResponse;
 use App\Parking\Parking;
 use App\Parking\Vehicle;
 use App\Parking\{Car, Bike, Truck};
+
 
 class Api
 {
@@ -12,56 +15,86 @@ class Api
     {
     }
 
-    public function createParking(int $parkingSize): Parking
+    public function create(int $parkingSize): ApiResponse
     {
-        $parking = new Parking($parkingSize, $this->repo->nextId());
-        $this->repo->save($parking);
+        try {
+            $parking = new Parking($parkingSize, $this->repo->nextId());
+            $this->repo->save($parking);
 
-        return $parking;
+            return new ApiResponse($parking);
+        } catch (\DomainException $e) {
+            throw new ApiException($e);
+        }
     }
 
-    public function getAllParking(): array
+    public function getAll(): ApiResponse
     {
-        return $this->repo->getAll();
+        try {
+            return new ApiResponse($this->repo->getAll());
+        } catch (\DomainException $e) {
+            throw new ApiException($e);
+        }
     }
 
-    public function findParkingById(int $id): Parking
+    public function findById(int $id): ApiResponse
     {
-        return $this->repo->findById($id);
+        try {
+            $parking = $this->repo->findById($id);
+
+            return new ApiResponse($parking);
+        } catch (\DomainException $e) {
+            throw new ApiException($e);
+        }
     }
 
-    public function parkVehicle(int $idParking, string $typeVehicle, string $vin): Parking
+    public function parkVehicle(int $idParking, string $typeVehicle, string $vin): ApiResponse
     {
-        $parking = $this->repo->findById($idParking);
-        $typeVehicle = $this->makeClassName($typeVehicle);
+        try {
+            $parking = $this->repo->findById($idParking);
+            $typeVehicle = $this->makeClassName($typeVehicle);
 
-        $car = new $typeVehicle($vin);
-        $parking->park($car);
-        $this->repo->save($parking);
+            $car = new $typeVehicle($vin);
+            $parking->park($car);
+            $this->repo->save($parking);
 
-        return $parking;
+            return new ApiResponse($parking);
+        } catch (\DomainException $e) {
+            throw new ApiException($e);
+        }
     }
 
-    public function parkOutVehicle(int $idParking, string $vin): Parking
+    public function parkOutVehicle(int $idParking, string $vin): ApiResponse
     {
-        $parking = $this->repo->findById($idParking);
-        $parking->parkOut($vin);
-        $this->repo->save($parking);
+        try {
+            $parking = $this->repo->findById($idParking);
+            $parking->parkOut($vin);
+            $this->repo->save($parking);
 
-        return $parking;
+            return new ApiResponse($parking);
+        } catch (\DomainException $e) {
+            throw new ApiException($e);
+        }
     }
 
-    public function deleteParking(int $idParking): Parking
+    public function delete(int $idParking): ApiResponse
     {
-        $parking = $this->repo->findById($idParking);
-        $this->repo->delete($idParking);
+        try {
+            $parking = $this->repo->findById($idParking);
+            $this->repo->delete($idParking);
 
-        return $parking;
+            return new ApiResponse($parking);
+        } catch (\DomainException $e) {
+            throw new ApiException($e);
+        }
     }
 
     private function makeClassName(string $class): string
     {
-        $class = "App\\Parking\\" . $class;
+        $class = 'App\\Parking\\' . $class;
+
+        if (!is_subclass_of($class, 'App\\Parking\\Vehicle')) {
+            throw new \DomainException('Класс не является наследником класса Vehicle');
+        }
 
         if (!class_exists($class)) {
             throw new \DomainException('Неправильный тип ТС');
